@@ -34,26 +34,21 @@ public class GHThreadTest {
             Constructor<GHThread> constructor = GHThread.class.getDeclaredConstructor();
             constructor.setAccessible(true);
 
-            
-
             GHThread thread = constructor.newInstance();
             Subject dummySubject = new Subject();
-            dummySubject.url = "asdf";
 
             Field subject = GHThread.class.getDeclaredField("subject");
             subject.setAccessible(true);
 
-            
-
             FieldUtils.writeField(thread, subject, dummySubject, true);
 
-            // Field t = thread.getClass().getDeclaredField("subject");
-            // t.setAccessible(true);
-            // t.set(subject, dummySubject);
+            Field t = thread.getClass().getDeclaredField("subject");
+            t.setAccessible(true);
+            t.set(subject, dummySubject);
 
-            // Field s = t.getType().getDeclaredField("url");
-            // s.setAccessible(true);
-            // s.set(url, "https://github.com/hub4j/github-api/issues/347");
+            Field s = t.getType().getDeclaredField("url");
+            s.setAccessible(true);
+            s.set(url, "https://github.com/hub4j/github-api/issues/347");
 
 
             // Field subj = subject.getClass().getDeclaredField("url");
@@ -63,6 +58,41 @@ public class GHThreadTest {
             // Subject.url = "asdfadsf";
             // subject.url = "https://github.com/hub4j/github-api/issues/347";
             // thread.subject = subject;
+
+            int result = thread.getIssueNumber();
+            assertThat(347, equalTo(result));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetPullNumber() {
+        try {
+            Method method = GHThread.class.getDeclaredMethod("getPullNumber", (Class<?>[]) null);
+            Constructor<GHThread> constructor = GHThread.class.getDeclaredConstructor();
+            constructor.setAccessible(true);
+
+            GHThread thread = constructor.newInstance();
+            Subject dummySubject = new Subject();
+
+
+            Field subject = GHThread.class.getDeclaredField("subject");
+            subject.setAccessible(true);
+
+            Field t = thread.getClass().getDeclaredField("subject");
+            t.setAccessible(true);
+            t.set(subject, dummySubject);
+
+            Field s = t.getType().getDeclaredField("url");
+            s.setAccessible(true);
+            s.set(url, "https://github.com/hub4j/github-api/pull/1316");
+
+            FieldUtils.writeField(thread, subject, dummySubject, true);
+            
+            int result = thread.getPullNumber();
+            assertThat(1316, equalTo(result));
 
         } catch (Exception e) {
             e.printStackTrace();
