@@ -587,6 +587,7 @@ public abstract class GHEventPayload extends GitHubInteractiveObject {
     public static class IssueComment extends GHEventPayload {
         private GHIssueComment comment;
         private GHIssue issue;
+        private GHIssueCommentChanges changes;
 
         /**
          * Gets comment.
@@ -630,6 +631,16 @@ public abstract class GHEventPayload extends GitHubInteractiveObject {
         @Deprecated
         public void setIssue(GHIssue issue) {
             throw new RuntimeException("Do not use this method.");
+        }
+
+        /**
+         * Get comment changes (for action="edited")
+         *
+         * @return changes
+         */
+        @SuppressFBWarnings(value = { "EI_EXPOSE_REP" }, justification = "Expected")
+        public GHIssueCommentChanges getChanges() {
+            return changes;
         }
 
         @Override

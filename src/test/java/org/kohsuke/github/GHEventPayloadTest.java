@@ -157,6 +157,14 @@ public class GHEventPayloadTest extends AbstractGitHubWireMockTest {
     }
 
     @Test
+    public void issue_comment_body_edited() throws Exception {
+        final GHEventPayload.IssueComment event = GitHub.offline()
+                .parseEventPayload(payload.asReader(), GHEventPayload.IssueComment.class);
+        assertThat(event.getAction(), is("edited"));
+        assertThat(event.getIssue().getNumber(), is(1));
+    }
+
+    @Test
     public void issues() throws Exception {
         final GHEventPayload.Issue event = GitHub.offline()
                 .parseEventPayload(payload.asReader(), GHEventPayload.Issue.class);
