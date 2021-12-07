@@ -473,6 +473,16 @@ public abstract class GHEventPayload extends GitHubInteractiveObject {
     public static class PullRequestReviewComment extends GHEventPayload {
         private GHPullRequestReviewComment comment;
         private GHPullRequest pullRequest;
+        private GHIssueCommentChanges pullCommentChanges;
+
+        /**
+         * Gets pull request comment changes.
+         *
+         * @return the comment
+         */
+        public GHIssueCommentChanges getPullCommentChanges() {
+            return pullCommentChanges;
+        }
 
         /**
          * Gets comment.
