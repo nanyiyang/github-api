@@ -473,15 +473,16 @@ public abstract class GHEventPayload extends GitHubInteractiveObject {
     public static class PullRequestReviewComment extends GHEventPayload {
         private GHPullRequestReviewComment comment;
         private GHPullRequest pullRequest;
-        private GHIssueCommentChanges pullCommentChanges;
+        private GHIssueCommentChanges changes;
 
         /**
          * Gets pull request comment changes.
          *
          * @return the comment
          */
+        @SuppressFBWarnings(value = { "EI_EXPOSE_REP" }, justification = "Expected")
         public GHIssueCommentChanges getPullCommentChanges() {
-            return pullCommentChanges;
+            return changes;
         }
 
         /**

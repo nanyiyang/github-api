@@ -5,7 +5,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * Wrapper to define changed fields on issues action="edited"
  *
- * @see GHEventPayload.Issue
  */
 @SuppressFBWarnings("UWF_UNWRITTEN_FIELD")
 public class GHIssueCommentChanges {
