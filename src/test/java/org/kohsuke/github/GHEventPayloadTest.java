@@ -157,6 +157,17 @@ public class GHEventPayloadTest extends AbstractGitHubWireMockTest {
     }
 
     @Test
+    public void issue_comment_body_edited() throws Exception {
+        final GHEventPayload.IssueComment event = GitHub.offline()
+                .parseEventPayload(payload.asReader(), GHEventPayload.IssueComment.class);
+        assertThat(event.getAction(), is("edited"));
+        assertThat(event.getIssue().getNumber(), is(1));
+        assertThat(event.getIssue().getLabels().iterator().next().getName(), is("bug"));
+        assertThat(event.getComment().getUser().getLogin(), is("Codertocat"));
+        assertThat(event.getChanges().getBody().getFrom(), is("Old comment text."));
+    }
+
+    @Test
     public void issues() throws Exception {
         final GHEventPayload.Issue event = GitHub.offline()
                 .parseEventPayload(payload.asReader(), GHEventPayload.Issue.class);
@@ -424,6 +435,25 @@ public class GHEventPayloadTest extends AbstractGitHubWireMockTest {
 
         assertThat(event.getPullRequest().getRepository(), sameInstance(event.getRepository()));
         assertThat(event.getComment().getParent(), sameInstance(event.getPullRequest()));
+    }
+
+    @Test
+//     public void issue_comment_body_edited() throws Exception {
+    public void pull_request_review_comment_body_edited() throws Exception {
+        final GHEventPayload.PullRequestReviewComment event = GitHub.offline()
+                .parseEventPayload(payload.asReader(), GHEventPayload.PullRequestReviewComment.class);
+        assertThat(event.getAction(), is("edited"));
+        assertThat(event.getPullRequest().getNumber(), is(1));
+        assertThat(event.getPullRequest().getUser().getLogin(), is("baxterthehacker"));
+        assertThat(event.getPullRequest().getHead().getUser().getLogin(), is("baxterthehacker"));
+        assertThat(event.getPullRequest().getHead().getRef(), is("changes"));
+        assertThat(event.getPullRequest().getHead().getLabel(), is("baxterthehacker:changes"));
+        assertThat(event.getPullRequest().getHead().getSha(), is("0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c"));
+        assertThat(event.getPullRequest().getBase().getUser().getLogin(), is("baxterthehacker"));
+        assertThat(event.getPullRequest().getBase().getRef(), is("main"));
+        assertThat(event.getPullRequest().getBase().getLabel(), is("baxterthehacker:main"));
+        assertThat(event.getPullRequest().getBase().getSha(), is("9049f1265b7d61be4a8904a9a27120d2064dab3b"));
+        assertThat(event.getPullCommentChanges().getBody().getFrom(), is("Old PR review comment text."));
     }
 
     @Test
