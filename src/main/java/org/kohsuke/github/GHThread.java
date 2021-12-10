@@ -109,6 +109,24 @@ public class GHThread extends GHObject {
     }
 
     /**
+     * Gets issue number based on url.
+     *
+     * @return the issue number
+     */
+    public int getIssueNumber() {
+        return Integer.parseInt(subject.url.substring(subject.url.lastIndexOf('/') + 1));
+    }
+
+    /**
+     * Gets pull number based on url.
+     *
+     * @return the pull number
+     */
+    public int getPullNumber() {
+        return Integer.parseInt(subject.url.substring(subject.url.lastIndexOf('/') + 1));
+    }
+
+    /**
      * If this thread is about an issue, return that issue.
      *
      * @return null if this thread is not about an issue.
