@@ -130,6 +130,24 @@ public class GHBranchProtectionBuilder {
         return this;
     }
 
+    // CS427 Issue link: https://github.com/[nanyiyang/github-api/issues/988
+    /**
+     * Gives user access to attributes for updating branch protection details 
+     * 
+     * @return a Hashmap containing the attributes of the branch
+     */
+    public HashMap<String, Object> copyAttributes() {
+        HashMap<String, Object> copiedAttributes = new HashMap<String, Object>();
+
+        copiedAttributes.put("branch", this.branch);
+        copiedAttributes.put("enforceAdmins", this.enforceAdmins);
+        copiedAttributes.put("prReviews", this.prReviews);
+        copiedAttributes.put("restrictions", this.restrictions);
+        copiedAttributes.put("statusChecks", this.statusChecks);
+
+        return copiedAttributes;
+    }
+
     /**
      * Require branch is up to date gh branch protection builder.
      *
