@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.kohsuke.github.internal.Previews.ZZZAX;
 
@@ -113,8 +114,8 @@ public class GHBranchProtection extends GitHubInteractiveObject {
      * 
      * @return a Hashmap containing the attributes of the branch
      */
-    public HashMap<String, Object> copyAttributes() {
-        HashMap<String, Object> copiedAttributes = new HashMap<String, Object>();
+    public Map<String, Object> copyAttributes() {
+        Map<String, Object> copiedAttributes = new HashMap<String, Object>();
 
         copiedAttributes.put("enforceAdmins", this.enforceAdmins);
         copiedAttributes.put("requiredReviews", this.requiredReviews);
