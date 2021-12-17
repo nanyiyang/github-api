@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.kohsuke.github.GHBranchProtection.EnforceAdmins;
 import org.kohsuke.github.GHBranchProtection.RequiredReviews;
 import org.kohsuke.github.GHBranchProtection.RequiredStatusChecks;
+import java.util.HashMap;
 
 import static org.hamcrest.Matchers.*;
 
@@ -112,5 +113,29 @@ public class GHBranchProtectionTest extends AbstractGitHubWireMockTest {
         Boolean condition = protectionTest instanceof GHBranchProtection;
         assertThat(protectionTest, instanceOf(GHBranchProtection.class));
         assertThat(repo.getBranch(BRANCH).isProtected(), is(true));
+    }
+
+    @Test
+    public void testCopyAttributes() throws Exception {
+        GHBranchProtection protection = branch.enableProtection()
+                .addRequiredChecks("test-status-check")
+                .requireBranchIsUpToDate()
+                .requireCodeOwnReviews()
+                .dismissStaleReviews()
+                .requiredReviewers(2)
+                .includeAdmins()
+                .enable();
+
+        HashMap<String, Object> attributes = protection.copyAttributes();
+        assertThat(attributes.size(), is(5));
+    }
+
+    @Test
+    public void testUpdateProtection() throws Exception {
+        GHBranchProtection protection = branch.enableProtection().requiredReviewers(2).includeAdmins(true).enable();
+        GHBranchProtection newProtection = branch.enableProtection().updateProtection(protection).includeAdmins(false).enable();
+
+        assertThat(newProtection.getEnforceAdmins().isEnabled(), is(false));
+        assertThat(newProtection.getRequiredReviews().getRequiredReviewers(), is(2));
     }
 }

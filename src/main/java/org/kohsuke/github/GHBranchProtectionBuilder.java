@@ -97,6 +97,21 @@ public class GHBranchProtectionBuilder {
                 .fetch(GHBranchProtection.class);
     }
 
+    /** WORK IN PROGRESS - NOT WORKING
+     * Required reviewers gh branch protection builder.
+     *
+     * @param protection the branch protection to update
+     * @return the gh branch protection builder
+     */
+    public GHBranchProtectionBuilder updateProtection(GHBranchProtection protection) {
+        this.enforceAdmins = protection.getEnforceAdmins().isEnabled();
+        this.statusChecks = protection.getRequiredStatusChecks();
+        this.restrictions = protection.getRestrictions();
+        this.prReviews = protection.getRequiredReviews();
+
+        return this;
+    }
+
     /**
      * Include admins gh branch protection builder.
      *

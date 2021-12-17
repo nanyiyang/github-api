@@ -6,6 +6,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.kohsuke.github.internal.Previews.ZZZAX;
 
@@ -104,6 +106,24 @@ public class GHBranchProtection extends GitHubInteractiveObject {
      */
     public Restrictions getRestrictions() {
         return restrictions;
+    }
+
+    // CS427 Issue link: https://github.com/[nanyiyang/github-api/issues/988
+    /**
+     * Gives user access to attributes for updating branch protection details 
+     * 
+     * @return a Hashmap containing the attributes of the branch
+     */
+    public Map<String, Object> copyAttributes() {
+        Map<String, Object> copiedAttributes = new HashMap<String, Object>();
+
+        copiedAttributes.put("enforceAdmins", this.enforceAdmins);
+        copiedAttributes.put("requiredReviews", this.requiredReviews);
+        copiedAttributes.put("restrictions", this.restrictions);
+        copiedAttributes.put("requiredStatusChecks", this.requiredStatusChecks);
+        copiedAttributes.put("url", this.url);
+
+        return copiedAttributes;
     }
 
     /**
